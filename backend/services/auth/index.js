@@ -9,7 +9,7 @@ const app=express();
 
 
 app.get("/",(req,res)=>{
-    res.send("Gateway server is running");
+    res.send("Gatewa server is running");
 });
 
 app.listen(port,()=>{
