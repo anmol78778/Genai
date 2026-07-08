@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDb from "./config/db.js";
+import router from "./routes/chat.routes.js";
 ;
 dotenv.config();
 
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 
-
+app.use("/",router)
 
 app.listen(PORT, () => {
   console.log(`Chat Service is running on port ${PORT}`);
