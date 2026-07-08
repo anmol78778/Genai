@@ -12,7 +12,7 @@ const router =
 express.Router();
 
 router.post("/login",login);
-// router.get("/logout",logout);
+router.get("/logout",logout);
 // router.patch(
 //     "/internal/update-plan",
 //     updatePlan

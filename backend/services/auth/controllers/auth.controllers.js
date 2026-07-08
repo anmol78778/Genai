@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { getAuth }
   from "firebase-admin/auth";
 import User from "../models/user.model.js";
-// import redis from "../../../shared/redis/redis.js";
+import redis from "../../../shared/redis/redis.js";
 import { app } from "../config/firebase.js";
 
 
@@ -57,38 +57,38 @@ export const login = async (
     const sessionId =
       crypto.randomUUID();
 
-    // await redis.set(
-    //   `user-session:${user._id}`,
-    //   sessionId,
-    //   "EX",
-    //   60 * 60 * 24 * 7
-    // );
+    await redis.set(
+      `user-session:${user._id}`,
+      sessionId,
+      "EX",
+      60 * 60 * 24 * 7
+    );
 
-    // await redis.set(
+    await redis.set(
 
-    //   `session:${sessionId}`,
+      `session:${sessionId}`,
 
-    //   JSON.stringify({
+      JSON.stringify({
 
-    //     userId:
-    //       user._id,
+        userId:
+          user._id,
 
-    //     email:
-    //       user.email,
-    //     avatar:
-    //       user.avatar,
-    //     name: user.name,
-    //     plan: user.plan,
-    //     credits: user.credits,
-    //     totalCredits: user.totalCredits
+        email:
+          user.email,
+        avatar:
+          user.avatar,
+        name: user.name,
+        plan: user.plan,
+        credits: user.credits,
+        totalCredits: user.totalCredits
 
 
-    //   }),
+      }),
 
-    //   "EX",
+      "EX",
 
-    //   60 * 60 * 24 * 7
-    // );
+      60 * 60 * 24 * 7
+    );
 
     res.cookie(
 
