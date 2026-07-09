@@ -6,8 +6,8 @@ export const agentState =
         prompt:
             Annotation(),
 
-        // conversationId:
-        //     Annotation(),
+        conversationId:
+            Annotation(),
         aiResponse:Annotation(),
         // userId:
         //     Annotation(),
