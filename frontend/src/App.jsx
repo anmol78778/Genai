@@ -10,7 +10,7 @@ function App() {
   useEffect(()=>{
     const getUser=async () =>{
       const data = await getCurrentUser()
-      dispatch(setUserData(data))
+      dispatch(setUserData(data.user));
     }
     getUser()
   },[])
