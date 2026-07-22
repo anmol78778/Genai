@@ -15,6 +15,7 @@ function Sidebar() {
     const { conversations, selectedConversation } = useSelector(state => state.conversation);
     const { userData } = useSelector(state => state.user);
 
+    
     // const { userData } = useSelector(state => state.user);
     useEffect(() => {
         console.log("Sidebar userData:", userData);
@@ -24,7 +25,9 @@ function Sidebar() {
     useEffect(() => {
         const getConv = async () => {
             const data = await getConversations()
+            console.log("Conversations API Response:", data);
             dispatch(setConversations(data))
+            // console.log(data)
         };
         getConv();
     }, [userData?.userId]);
