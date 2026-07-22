@@ -1,43 +1,48 @@
-import React, { useEffect } from 'react'
-import Nav from './Nav'
-import MessageList from './MessageList'
-import ChatInput from './ChatInput'
-import { useSelector } from "react-redux";
-import { useDispatch } from 'react-redux';
-import { setMessages } from '../redux/messageSlice';
-import getMessages from '../features/getMessages';
-// import  getMessages  from '../features/getMessages'
+import { useState } from "react";
+import AIBanner from "./AiBanner";
+import ChatInput from "./ChatInput";
+import MessageBubble from "./MessageBubble";
+import MessageList from "./MessageList";
+import Navbar from "./Navbar";
+
+
 function ChatArea() {
-    const {  selectedConversation } = useSelector(state => state.conversation);
-    const dispatch=useDispatch()
-    
-    useEffect(()=>{
-      const getMsg=async () => {
-        if(selectedConversation){
-          const data=await getMessages(selectedConversation?._id)
-          dispatch(setMessages(data))
-        }
-      }
-      getMsg(); 
-    },[selectedConversation])
-
-//     useEffect(() => {
-//   const getMsg = async () => {
-//     if (selectedConversation) {
-//       const data = await getMessages(selectedConversation._id);
-//       dispatch(setMessages(data));
-//     }
-//   };
-
-//   getMsg();
-// }, [selectedConversation, dispatch]);
+  const [banner,setBanner]=useState({
+    open:false,
+    title:"",
+    message:""
+});
   return (
-    <div className='flex-1 flex flex-col'>
-      <Nav/>
-      <MessageList/>
-      <ChatInput/>
+    <div className="flex-1 flex flex-col min-w-0">
+
+      <Navbar />
+
+      <MessageList />
+      <AIBanner
+
+   open={banner.open}
+
+   title={banner.title}
+
+   message={banner.message}
+
+   onClose={()=>
+
+      setBanner({
+         ...banner,
+         open:false
+      })
+
+   }
+
+/>
+
+     <ChatInput
+  setBanner={setBanner}
+/>
+
     </div>
-  )
+  );
 }
 
-export default ChatArea
+export default ChatArea;
