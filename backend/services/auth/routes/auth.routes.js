@@ -13,17 +13,17 @@ express.Router();
 
 router.post("/login",login);
 router.get("/logout",logout);
-// router.patch(
-//     "/internal/update-plan",
-//     updatePlan
-// );
-// router.patch(
+router.patch(
+    "/internal/update-plan",
+    updatePlan
+);
+router.patch(
 
-// "/internal/deduct-credits",
+"/internal/deduct-credits",
 
-// deductCredits
+deductCredits
 
-// );
+);
 
 
 export default router;

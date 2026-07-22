@@ -1,34 +1,25 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import connectDb from "./config/db.js";
-// import authRoutes from "./routes/auth.route.js";
-import router from "./routes/auth.route.js";
+import connectDB from "./config/db.js";
+import dotenv from "dotenv";
+import router from "./routes/auth.routes.js";
 dotenv.config();
-
 const app = express();
-const PORT = process.env.PORT || 8000;
-
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
 app.use(express.json());
+const port=process.env.PORT 
 
-app.use("/",router)
 
 
 app.get("/", (req, res) => {
-  res.send("Auth Service is running");
+  res.status(200).json({
+    service: "auth",
+    status: "ok"
+  });
 });
-
-
-
-
-app.listen(PORT, () => {
-  console.log(`Auth Service is running on port ${PORT}`);
-  connectDb();
+app.use("/",router)
+app.listen(port, () => {
+    connectDB()
+  console.log(
+    `auth service running on ${port}`
+  );
 });
