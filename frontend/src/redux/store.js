@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import  userSlice  from './userSlice'
-import  conversationSlice  from './conversationSlice.js'
-import  messageSlice  from './messageSlice'
-
+import  userSlice  from './user.slice'
+import  conversationSlice  from './conversation.slice'
+import  messageSlice  from './message.slice'
 
 export const store = configureStore({
   reducer: {

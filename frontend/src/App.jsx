@@ -1,25 +1,18 @@
-import React, { useEffect } from "react";
-import Home from "./pages/Home";
-import getCurrentUser from "./features/getCurrentUser";
-import { useDispatch } from "react-redux";
-import { setUserData } from "./redux/userSlice";
-
-
+import React, { useEffect } from 'react'
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import Home from './pages/Home'
+import useCurrentUser from './hooks/useCurrentUser'
 function App() {
-  const dispatch=useDispatch()
-  useEffect(()=>{
-    const getUser=async () =>{
-      const data = await getCurrentUser()
-      dispatch(setUserData(data.user));
-    }
-    getUser()
-  },[])
+  useCurrentUser()
+ 
   return (
-    <>
-    <Home/>
-    
-    </>
-  );
+   <BrowserRouter>
+   <Routes>
+    <Route path='/' element={<Home/>}/>
+   </Routes>
+   
+   </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
