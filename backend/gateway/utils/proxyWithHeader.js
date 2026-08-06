@@ -1,6 +1,6 @@
 import proxy from "express-http-proxy";
 
-export const proxyWithHeader =
+export const proxyWithUser  =
 (serviceUrl)=>{
 
  return proxy(
