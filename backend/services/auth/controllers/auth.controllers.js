@@ -322,6 +322,13 @@ export const deductCredits = async (req, res) => {
 
     };
 
+
+    if (!(agent in COST)) {
+      return res.status(400).json({
+        message: "Invalid agent"
+      });
+    }
+    
     const user = await User.findById(userId);
 
     if (!user) {
