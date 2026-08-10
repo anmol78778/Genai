@@ -13,7 +13,7 @@ app.use("/",router)
 
 
 app.listen(port, () => {
-    connectDB()
+    awaitconnectDB()
   console.log(
     `chat service running on ${port}`
   );
