@@ -74,6 +74,8 @@ export const saveMessage =async(req,res)=>{
   artifacts
   } = req.body;
 
+  const userId =req.headers["x-user-id"];
+
   const conversation =
   await Conversation.findOne({
     _id: conversationId,
