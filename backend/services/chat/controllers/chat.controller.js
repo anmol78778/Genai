@@ -1,178 +1,187 @@
 import Conversation
-from "../models/conversation.model.js";
+  from "../models/conversation.model.js";
 
-export const createConversation =async(req,res)=>{
+export const createConversation = async (req, res) => {
 
- try{
- const userId =req.headers["x-user-id"];
+  try {
+    const userId = req.headers["x-user-id"];
 
- if (!userId) {
-  return res.status(401).json({
-    message: "User identity missing"
-  });
+    if (!userId) {
+      return res.status(401).json({
+        message: "User identity missing"
+      });
+    }
+
+    console.log("userId", userId)
+    const conversation = await Conversation.create({
+      userId: userId
+    });
+
+    res.json(
+      conversation
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
 }
 
- console.log("userId",userId)
-  const conversation =await Conversation.create({
-   userId:userId
-  });
 
-  res.json(
-   conversation
-  );
+export const getConversations = async (req, res) => {
 
- }catch(error){
+  try {
+    const userId = req.headers["x-user-id"];
+    const conversations = await Conversation.find({
 
-  res.status(500).json({
-   message:error.message
-  });
+      userId: userId
 
- }
+    })
+      .sort({
+        updatedAt: -1
+      });
 
-}
+    res.json(
+      conversations
+    );
 
+  } catch (error) {
 
-export const getConversations =async(req,res)=>{
+    res.status(500).json({
+      message: error.message
+    });
 
- try{
- const userId =req.headers["x-user-id"];
-  const conversations =await Conversation.find({
-
-   userId:userId
-
-  })
-  .sort({
-   updatedAt:-1
-  });
-
-  res.json(
-   conversations
-  );
-
- }catch(error){
-
-  res.status(500).json({
-   message:error.message
-  });
-
- }
+  }
 
 }
 
 import Message
-from "../models/message.model.js";
+  from "../models/message.model.js";
 
-export const saveMessage =async(req,res)=>{
+export const saveMessage = async (req, res) => {
 
- try{
+  try {
 
-  const {
-   conversationId,
-   role,
-   content,
-   images,
-  artifacts
-  } = req.body;
+    const {
+      conversationId,
+      role,
+      content,
+      images,
+      artifacts
+    } = req.body;
 
-  const userId =req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"];
 
-  const conversation =
-  await Conversation.findOne({
-    _id: conversationId,
-    userId
-  });
+    const conversation =
+      await Conversation.findOne({
+        _id: conversationId,
+        userId
+      });
 
-if (!conversation) {
-  return res.status(403).json({
-    message: "Forbidden"
-  });
-}
+    if (!conversation) {
+      return res.status(403).json({
+        message: "Forbidden"
+      });
+    }
 
-  const message =await Message.create({
+    const message = await Message.create({
 
-   conversationId,
+      conversationId,
 
-   role,
-  images,
-   content,
-   artifacts:
-  artifacts || []
+      role,
+      images,
+      content,
+      artifacts:
+        artifacts || []
 
-  });
+    });
 
-  res.json(
-   message
-  );
+    res.json(
+      message
+    );
 
- }catch(error){
+  } catch (error) {
 
-  res.status(500).json({
-   message:error.message
-  });
+    res.status(500).json({
+      message: error.message
+    });
 
- }
-
-}
-
-
-
-export const getMessages =async(req,res)=>{
-
- try{
-
-  const userId =req.headers["x-user-id"];
-  
-  const conversation =
-  await Conversation.findOne({
-    _id: req.params.id,
-    userId
-  });
-
-if (!conversation) {
-   return res.status(403).json({
-      message: "Forbidden"
-   });
-}
-  const messages =await Message.find({
-
-   conversationId:
-   req.params.id
-
-  })
-  .sort({
-   createdAt:1
-  });
-
-  res.json(
-   messages
-  );
-
- }catch(error){
-
-  res.status(500).json({
-   message:error.message
-  });
-
- }
+  }
 
 }
 
 
-export const updateConversation=async (req,res)=>{
-try {
-    const {conversationId,title}=req.body
-    const conversation=await Conversation.findByIdAndUpdate( conversationId,{
-        title
+
+export const getMessages = async (req, res) => {
+
+  try {
+
+    const userId = req.headers["x-user-id"];
+
+    const conversation =
+      await Conversation.findOne({
+        _id: req.params.id,
+        userId
+      });
+
+    if (!conversation) {
+      return res.status(403).json({
+        message: "Forbidden"
+      });
+    }
+    const messages = await Message.find({
+
+      conversationId:
+        req.params.id
+
     })
-     res.json(
-   conversation
-  );
+      .sort({
+        createdAt: 1
+      });
 
- }catch(error){
+    res.json(
+      messages
+    );
 
-  res.status(500).json({
-   message:error.message
-  });
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
 
 }
+
+
+export const updateConversation = async (req, res) => {
+  try {
+    const { conversationId, title } = req.body
+    const conversation = await Conversation.findByIdAndUpdate(
+      {
+        _id: conversationId,
+        userId
+      },
+      {
+        title
+      },
+      {
+        new: true
+      }
+    )
+    res.json(
+      conversation
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
 }
