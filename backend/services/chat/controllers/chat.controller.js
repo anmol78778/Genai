@@ -74,6 +74,18 @@ export const saveMessage =async(req,res)=>{
   artifacts
   } = req.body;
 
+  const conversation =
+  await Conversation.findOne({
+    _id: conversationId,
+    userId
+  });
+
+if (!conversation) {
+  return res.status(403).json({
+    message: "Forbidden"
+  });
+}
+
   const message =await Message.create({
 
    conversationId,
