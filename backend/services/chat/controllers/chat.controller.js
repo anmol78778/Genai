@@ -5,6 +5,13 @@ export const createConversation =async(req,res)=>{
 
  try{
  const userId =req.headers["x-user-id"];
+
+ if (!userId) {
+  return res.status(401).json({
+    message: "User identity missing"
+  });
+}
+
  console.log("userId",userId)
   const conversation =await Conversation.create({
    userId:userId
