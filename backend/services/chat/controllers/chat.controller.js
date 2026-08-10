@@ -120,6 +120,19 @@ export const getMessages =async(req,res)=>{
 
  try{
 
+  const userId =req.headers["x-user-id"];
+  
+  const conversation =
+  await Conversation.findOne({
+    _id: req.params.id,
+    userId
+  });
+
+if (!conversation) {
+   return res.status(403).json({
+      message: "Forbidden"
+   });
+}
   const messages =await Message.find({
 
    conversationId:
