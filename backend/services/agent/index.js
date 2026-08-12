@@ -33,9 +33,27 @@ app.use((err, req, res, next) => {
 
 });
 
-app.listen(port, () => {
-    connectDB()
-  console.log(
-    `agent service running on ${port}`
-  );
-});
+const startServer = async () => {
+
+  try {
+
+    await connectDB();
+
+    app.listen(port, () => {
+      console.log(
+        `Agent service running on ${port}`
+      );
+    });
+
+  } catch (error) {
+
+    console.error(
+      "Failed to start Agent Service",
+      error
+    );
+
+    process.exit(1);
+  }
+};
+
+startServer();
